@@ -1,0 +1,256 @@
+<html>
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <script>
+        function inc(index) {
+            add = index + 1;
+            return add;
+        }
+    </script>
+</head>
+
+<body dir="rtl">
+    <div>
+        <table class="header" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="https://i.ibb.co/j4D9QzW/logo.png" style="width:100%; max-width:300px;" />
+                            </td>
+                            <td>
+                                <h2 class="app-name"> الجذور للقدرات </h2>
+                                اسم الطالب : {{userName}}
+                                <br />
+                                التاريخ : {{#getLocalDate meta.start}} {{/getLocalDate}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="result">
+                    <table class="tbl-result" border="1">
+                        <thead>
+                            <h5 class="model-name">
+                                نتيجه الاختبار
+                            </h5>
+                        </thead>
+                        <tr>
+                            <td>
+                                <h4 class="model-name">
+                                    {{score}}
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4 class="model-name">
+                                    100
+                                </h4>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+        <h4 class="model-name">
+            نتيجة الاختبار في نموذج : {{meta.title}}
+        </h4>
+        <hr />
+        {{#each sections}}
+        <div>
+            <div>
+                <div class='section'>
+                    {{inc @index}} -
+                    {{#ifEqN @index 0}}
+                    لفظي
+                    {{/ifEqN}}
+
+                    {{#ifEqN @index 1}}
+                    كمي
+                    {{/ifEqN}}
+
+                    {{#ifEqN @index 2}}
+                    لفظي
+                    {{/ifEqN}}
+
+                    {{#ifEqN @index 3}}
+                    كمي
+                    {{/ifEqN}}
+                </div>
+                {{#each questions}}
+                <table class="header" style="padding: 0 15px;">
+                    <tr>
+                        <td {{#if isCorrectAnswer }} class="g" {{else}} class="r" {{/if}}>
+                            {{inc @index}} - {{{question}}}
+                        </td>
+                        <td style="float: left">
+                            {{#if isCorrectAnswer }}
+                            <label class='ans-cr g'>
+                                &check;
+                            </label>
+                            {{else}}
+                            <label class='ans-cr r'>
+                                &#x2179;
+                            </label>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <table class="tbl">
+                            {{#each answerOptions}}
+                            {{#ifEqN @index 2}}
+                    </tr>
+                    <tr>{{/ifEqN}}
+                        {{#ifEqN @index 0}}
+                    <tr>{{/ifEqN}}
+                        <td>
+                            <div class="checkbox">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label {{#ifEqFirstArgPlus1 ../answerInd optionNumber}}
+                                                {{#ifEq isCorrectAnswer false}} class="r" {{/ifEq}}
+                                                {{/ifEqFirstArgPlus1}} {{#ifEqFirstArgPlus1 ../answerInd optionNumber}}
+                                                {{#ifEq isCorrectAnswer true}} class="g" {{/ifEq}}
+                                                {{/ifEqFirstArgPlus1}}>
+                                                <span {{#ifEqFirstArgPlus1 ../answerInd optionNumber}}
+                                                    {{#ifEq isCorrectAnswer false}} class="r" {{/ifEq}}
+                                                    {{/ifEqFirstArgPlus1}}
+                                                    {{#ifEqFirstArgPlus1 ../answerInd optionNumber}}
+                                                    {{#ifEq isCorrectAnswer true}} class="g" {{/ifEq}}
+                                                    {{/ifEqFirstArgPlus1}}>
+                                                    {{#getSymbol ../isCorrectAnswer  isCorrectAnswer optionNumber ../answerInd}}
+                                                    {{/getSymbol}}</span>
+                                                {{#truncate answerBody}}
+                                                {{/truncate}}
+                                                <!-- {{answerBody}} -->
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        {{/each}}
+                    </tr>
+                </table>
+                </tr>
+                </table>
+                <hr />
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</body>
+
+</html>
+
+<style>
+    @import 'https://fonts.googleapis.com/css?family=Cairo&display=swap&subset=arabic,latin-ext';
+    /* @font-face {
+      font-family: 'Cairo';
+    } */
+
+    * {
+        font-family: "Cairo" !important;
+    }
+
+    .header {
+        width: 100%;
+    }
+
+    .result {
+        float: left;
+    }
+
+    .ans-cr {
+        font-weight: bolder;
+        font-size: 17px;
+    }
+
+    .tbl-result {
+        width: 130px;
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+
+    .app-name {
+        margin-bottom: 0 !important;
+    }
+
+    body {
+        padding: 25px;
+    }
+
+    .model-name {
+        text-align: center;
+        margin-top: 3px;
+        margin-bottom: 4px !important;
+    }
+
+    .ansTyp {
+        margin-top: 10px;
+        margin-bottom: 15px;
+        padding: 5px;
+        font-size: 18px;
+        background: #f1eccd94;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    .r {
+        color: red;
+        direction: rtl;
+    }
+
+    .g {
+        color: green;
+    }
+
+
+    .tbl {
+        width: 100%;
+    }
+
+    .tbl td {
+        table-layout: fixed;
+        overflow: hidden;
+        width: 50%;
+    }
+
+
+    @media print {
+        body {
+            -webkit-print-color-adjust: exact;
+        }
+    }
+
+    .section {
+        text-align: center;
+        font-size: 20px;
+        background: #f2f2f2;
+        padding: 4px;
+        border-radius: 10px;
+        margin-top: 25px
+    }
+
+    .headerText {
+        font-size: 20px;
+    }
+
+    .fullWidth {
+        display: flex;
+        width: 100%;
+        border: 1px solid #000;
+    }
+
+    .checkbox {
+        margin: 4px;
+        position: relative;
+        width: 100%;
+        word-break: break-all;
+    }
+</style>
